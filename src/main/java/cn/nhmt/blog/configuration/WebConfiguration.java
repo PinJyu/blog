@@ -25,6 +25,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     // 静态资源映射
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations("/WEB-INF/static/");
+        registry.addResourceHandler("static/**").addResourceLocations("/WEB-INF/static/");
+        registry.addResourceHandler("favicon.ico").addResourceLocations("/WEB-INF/static/images/");
     }
 }
