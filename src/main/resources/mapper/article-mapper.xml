@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.nhmt.blog.dao.ArticleDao">
+
+    <select id="selectArticleByAid" parameterType="int" resultType="cn.nhmt.blog.domain.Article" >
+        SELECT
+            aid,
+            title,
+            establishtime,
+            lastmodifytime,
+            introduction,
+            content,
+            markdown
+        FROM article WHERE aid = #{aid}
+    </select>
+
+    <insert id="insertNewArticle" useGeneratedKeys="true" parameterType="cn.nhmt.blog.domain.Article" >
+        INSERT INTO article (title, establishtime, lastmodifytime, introduction, content, markdown)
+        VALUES (#{title}, #{establishtime}, #{lastmodifytime}, #{introduction}, #{content}, #{markdown})
+    </insert>
+
+    <delete id="deleteArticleByAid" parameterType="int" >
+        DELETE FROM article WHERE aid = #{aid}
+    </delete>
+
+    <update id="updateOldArticle" parameterType="cn.nhmt.blog.domain.Article" >
+        UPDATE article
+            <set>
+                <if test="title != null">title = #{title},</if>
+                <if test="lastmodifytime != null">lastmodifytime = #{lastmodifytime},</if>
+                <if test="introduction != null">introduction = #{introduction},</if>
+                <if test="content != null">content = #{content},</if>
+                <if test="markdown != null">markdown = #{markdown}</if>
+            </set>
+        WHERE aid = #{aid}
+    </update>
+</mapper>
