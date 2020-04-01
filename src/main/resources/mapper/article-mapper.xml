@@ -9,6 +9,7 @@
         SELECT
             aid,
             title,
+            catalog,
             establishtime,
             lastmodifytime,
             introduction,
@@ -17,9 +18,31 @@
         FROM article WHERE aid = #{aid}
     </select>
 
+    <select id="selectArticleIntroductionByPage" resultType="cn.nhmt.blog.domain.Article" >
+        SELECT
+            aid,
+            title,
+            catalog,
+            establishtime,
+            lastmodifytime,
+            introduction
+        FROM article Limit #{arg0}, #{arg1};
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT count(*) FROM article;
+    </select>
+
+    <select id="selectAllCatalog" resultType="String">
+        SELECT DISTINCT catalog FROM article;
+    </select>
+
+    <select id="selectCatalogCount" parameterType="String" resultType="int">
+        SELECT count(*) FROM article where catalog = #{catalog};
+    </select>
     <insert id="insertNewArticle" useGeneratedKeys="true" parameterType="cn.nhmt.blog.domain.Article" >
-        INSERT INTO article (title, establishtime, lastmodifytime, introduction, content, markdown)
-        VALUES (#{title}, #{establishtime}, #{lastmodifytime}, #{introduction}, #{content}, #{markdown})
+        INSERT INTO article (title, catalog, establishtime, lastmodifytime, introduction, content, markdown)
+        VALUES (#{title}, #{catalog}, #{establishtime}, #{lastmodifytime}, #{introduction}, #{content}, #{markdown})
     </insert>
 
     <delete id="deleteArticleByAid" parameterType="int" >
@@ -30,6 +53,7 @@
         UPDATE article
             <set>
                 <if test="title != null">title = #{title},</if>
+                <if test="catalog != null">catalog = #{catalog}</if>
                 <if test="lastmodifytime != null">lastmodifytime = #{lastmodifytime},</if>
                 <if test="introduction != null">introduction = #{introduction},</if>
                 <if test="content != null">content = #{content},</if>

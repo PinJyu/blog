@@ -1,0 +1,43 @@
+body {
+    padding-top: 70px;
+}
+.title {
+    font-size: 1.275rem;
+}
+.title a {
+    font-width: bold !important;
+    /*line-height: 1.275rem;*/
+}
+.title a:hover {
+    text-decoration: none;
+    color: #292929;
+}
+
+.catalog a:hover {
+    text-decoration: none;
+}
+.catalog a:active {
+    color: #292929;
+}
+
+.meta {
+    color: #8f8f8f;
+    font-size: 0.8125rem;
+}
+.publish-time:after, .lastmodify-time:after {
+    content: "";
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #8f8f8f;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    position: relative;
+    top: -3px;
+}
+.introduction {
+    font-size: 0.875rem;
+    color: #4f4f4f;
+}
+

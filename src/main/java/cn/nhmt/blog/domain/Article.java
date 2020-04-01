@@ -16,6 +16,7 @@ public class Article {
 
     private int aid;
     private String title;
+    private String catalog;
     private Date establishtime;
     private Date lastmodifytime;
     private String introduction;
@@ -23,6 +24,14 @@ public class Article {
     private String markdown;
 
     public Article() { }
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
+    }
 
     public int getAid() {
         return aid;
@@ -85,6 +94,7 @@ public class Article {
         return "Article{" +
                 "aid=" + aid +
                 ", title='" + title + '\'' +
+                ", catalog='" + catalog + '\'' +
                 ", establishtime=" + establishtime +
                 ", lastmodifytime=" + lastmodifytime +
                 ", introduction='" + introduction + '\'' +

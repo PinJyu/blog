@@ -4,6 +4,8 @@ import cn.nhmt.blog.domain.Article;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 
+import java.util.List;
+
 public interface ArticleDao {
     /**
      * aid int primary key AUTO_INCREMENT COMMENT '文章主键',
@@ -22,4 +24,12 @@ public interface ArticleDao {
     void updateOldArticle(Article a);
 
     Article selectArticleByAid(int aid);
+
+    List<Article> selectArticleIntroductionByPage(int start, int end);
+
+    int count();
+
+    List<String> selectAllCatalog();
+
+    int selectCatalogCount(String catalog);
 }
