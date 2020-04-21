@@ -1,0 +1,50 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg id="nai" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 720 180" version="1.1" width="720" height="180">
+    <script type="text/ecmascript" ><![CDATA[
+            function hover(evt) {
+                var rect = evt.target;
+                rect.style.fill = "rgb(150, 150, 150)";
+            };
+            function out(evt) {
+                var rect = evt.target;
+                rect.style.fill = "rgb(242, 242, 242)";
+            };
+			(function () {
+				var svg = document.getElementById("nai");
+				var width = svg.getAttribute("width");
+				var height = svg.getAttribute("height");
+				var i;
+				for (var y = 0; y < height; y += 12) {
+					i = parseInt(y / 12) % 2 == 0 ? 12 : 0;
+					for (var x = i; x < width; x += 24) {
+						if (y < 90) {
+							if (Math.random() > 0.9) {
+								continue;
+							}
+						} else if (y > 90 && y < 150) {
+						  	if (Math.random() > 0.6) {
+								continue;
+							}
+						} else {
+							if (Math.random() > 0.05) {
+								continue;
+							}
+						}
+						var rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+						rect.setAttribute("x", x);
+						rect.setAttribute("y", y);
+						rect.setAttribute("width", 12);
+						rect.setAttribute("height", 12);
+						rect.setAttribute("style", "fill:rgb(242,242,242);stroke-width:0");
+						rect.onmouseover = hover;
+						rect.onmouseout = out;
+						svg.appendChild(rect);
+					}
+				}
+			})();
+    ]]>
+    </script>
+</svg>

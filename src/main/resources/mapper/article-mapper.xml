@@ -4,61 +4,130 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.nhmt.blog.dao.ArticleDao">
-
-    <select id="selectArticleByAid" parameterType="int" resultType="cn.nhmt.blog.domain.Article" >
-        SELECT
-            aid,
-            title,
-            catalog,
-            establishtime,
-            lastmodifytime,
-            introduction,
-            content,
-            markdown
-        FROM article WHERE aid = #{aid}
-    </select>
-
-    <select id="selectArticleIntroductionByPage" resultType="cn.nhmt.blog.domain.Article" >
-        SELECT
-            aid,
-            title,
-            catalog,
-            establishtime,
-            lastmodifytime,
-            introduction
-        FROM article Limit #{arg0}, #{arg1};
-    </select>
-
-    <select id="count" resultType="int">
-        SELECT count(*) FROM article;
-    </select>
-
-    <select id="selectAllCatalog" resultType="String">
-        SELECT DISTINCT catalog FROM article;
-    </select>
-
-    <select id="selectCatalogCount" parameterType="String" resultType="int">
-        SELECT count(*) FROM article where catalog = #{catalog};
-    </select>
-    <insert id="insertNewArticle" useGeneratedKeys="true" parameterType="cn.nhmt.blog.domain.Article" >
-        INSERT INTO article (title, catalog, establishtime, lastmodifytime, introduction, content, markdown)
-        VALUES (#{title}, #{catalog}, #{establishtime}, #{lastmodifytime}, #{introduction}, #{content}, #{markdown})
+    <!-- C -->
+    <insert id="post" useGeneratedKeys="true" parameterType="cn.nhmt.blog.po.Article" >
+        INSERT INTO user_article (
+                                  article_Title,
+                                  article_Catatory,
+                                  article_Create_Gmt,
+                                  article_Last_Modify_Gmt,
+                                  article_Introduction,
+                                  article_Markdown,
+                                  article_User_Id
+                                  )
+        VALUES (#{title}, #{catatory}, #{createGmt}, #{lastModifyGmt}, #{introduction}, #{markdown}, #{user.id})
     </insert>
 
-    <delete id="deleteArticleByAid" parameterType="int" >
-        DELETE FROM article WHERE aid = #{aid}
+    <!-- D -->
+    <delete id="deleteById" parameterType="int" >
+        DELETE FROM user_article WHERE article_Id = #{id}
     </delete>
 
-    <update id="updateOldArticle" parameterType="cn.nhmt.blog.domain.Article" >
-        UPDATE article
-            <set>
-                <if test="title != null">title = #{title},</if>
-                <if test="catalog != null">catalog = #{catalog}</if>
-                <if test="lastmodifytime != null">lastmodifytime = #{lastmodifytime},</if>
-                <if test="introduction != null">introduction = #{introduction},</if>
-                <if test="content != null">content = #{content},</if>
-                <if test="markdown != null">markdown = #{markdown}</if>
-            </set>
-        WHERE aid = #{aid}
+    <!-- U -->
+    <update id="put" parameterType="cn.nhmt.blog.po.Article" >
+        UPDATE user_article
+        <set>
+            <if test="title != null">article_title = #{title},</if>
+            <if test="catatory != null">article_catatory= #{catatory},</if>
+            <if test="lastModifyGmt != null">article_Last_Modify_Gmt = #{lastModifyGmt},</if>
+            <if test="introduction != null">article_Introduction = #{introduction},</if>
+            <if test="markdown != null">article_Markdown = #{markdown}</if>
+        </set>
+        WHERE article_id = #{id}
     </update>
+
+    <!-- R -->
+    <resultMap id="getCatatoryAndCountResultMap" type="cn.nhmt.blog.dto.article.ArticleCatatoryAndCount">
+        <result property="catatory" column="article_Catatory"/>
+        <result property="count" column="count(article_Catatory)"/>
+    </resultMap>
+
+    <select id="getCatatoryAndCount" resultMap="getCatatoryAndCountResultMap">
+        select article_Catatory, count(article_Catatory) from user_article group by article_Catatory;
+    </select>
+
+    <resultMap id="getTitleAndCreateGmtResultMap" type="cn.nhmt.blog.dto.article.ArticleTitleAndCreateGmt">
+        <id property="id" column="article_id"/>
+        <result property="title" column="article_Title"/>
+        <result property="createGmt" column="article_Create_Gmt"/>
+    </resultMap>
+
+    <select id="getTitleAndCreateGmt" resultMap="getTitleAndCreateGmtResultMap">
+        SELECT
+            article_id,
+            article_Title,
+            article_Create_Gmt
+        FROM user_article
+    </select>
+
+    <resultMap id="getPageResultMap" type="cn.nhmt.blog.po.Article">
+        <id property="id" column="article_id"/>
+        <result property="title" column="article_Title"/>
+        <result property="catatory" column="article_Catatory"/>
+        <result property="createGmt" column="article_Create_Gmt"/>
+        <result property="lastModifyGmt" column="article_Last_Modify_Gmt"/>
+        <result property="introduction" column="article_Introduction"/>
+        <result property="imageUrl" column="article_Image_Url"/>
+        <association property="user" javaType="cn.nhmt.blog.po.User" >
+            <result property="name" column="user_Name"/>
+        </association>
+    </resultMap>
+
+    <select id="getPage" resultMap="getPageResultMap">
+        SELECT
+            article_id,
+            article_Title,
+            article_Catatory,
+            article_Create_Gmt,
+            article_Last_Modify_Gmt,
+            article_Introduction,
+            article_Image_Url,
+            user_Name
+        FROM user_article
+        LEFT JOIN blog_user ON article_User_Id = user_Id
+        <if test="catatory != null">
+            WHERE article_Catatory = #{catatory}
+        </if>
+        Limit #{start}, #{limit}
+    </select>
+
+    <resultMap id="getByIdResultMap" type="cn.nhmt.blog.po.Article">
+        <id property="id" column="article_id"/>
+        <result property="title" column="article_Title"/>
+        <result property="catatory" column="article_Catatory"/>
+        <result property="createGmt" column="article_Create_Gmt"/>
+        <result property="lastModifyGmt" column="article_Last_Modify_Gmt"/>
+        <result property="markdown" column="article_Markdown"/>
+        <association property="user" javaType="cn.nhmt.blog.po.User" >
+            <result property="name" column="user_Name"/>
+        </association>
+    </resultMap>
+
+    <select id="getById" parameterType="int" resultMap="getByIdResultMap">
+        SELECT
+            article_id,
+            article_Title,
+            article_Catatory,
+            article_Create_Gmt,
+            article_Last_Modify_Gmt,
+            article_Markdown,
+            user_Name
+        FROM user_article
+        LEFT JOIN blog_user ON article_User_Id = user_Id
+        WHERE article_Id = #{id}
+    </select>
+
+    <!-- =======================next for image=====================-->
+    <update id="postImage">
+        UPDATE user_article SET article_Image_Url = #{imageUrl} WHERE article_Id = #{id}
+    </update>
+
+    <update id="putImage">
+        UPDATE user_article SET article_Image_Url = #{imageUrl} WHERE article_Id = #{id}
+    </update>
+
+    <update id="deleteImageById">
+        UPDATE user_article SET article_Image_Url = null WHERE article_Id = #{id}
+    </update>
+
 </mapper>
