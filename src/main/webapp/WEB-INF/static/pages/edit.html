@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>PinJYu's Edit</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <style>
+    html {
+      overflow-y: scroll;
+    }
+    :root {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    :root body {
+      position: absolute;
+    }
+    body {
+      width: 100vw;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="shortcut icon" href="/blog/images/favicon.ico"/>
+  <link rel="stylesheet" href="/blog/plugins/bootstrap-4.1.3-dist/css/bootstrap.min.css" type="text/css"/>
+  <link rel="stylesheet" href="/blog/plugins/editormd/css/editormd.css"/>
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1793725_cmbwwdobccf.css">
+  <link rel="stylesheet" href="/blog/css/edit.css"/>
+</head>
+<body>
+  <header>
+    <div id="head-bgsvg-wrapper">
+      <embed src="/blog/images/headrandom.svg" style="display:block;width: 100%" />
+    </div>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg mb-5">
+      <div class="container-fluid mx-lg-5">
+        <!-- 导航栏标题 -->
+        <a id="log" href="/blog" class="navbar-brand"></a>
+        <!-- 折叠导航栏按钮 -->
+        <button class="navbar-toggler navbar-dark bg-dark" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="nav-cls" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbar">
+          <!-- 导航分类 -->
+          <ul class="nav navbar-nav ml-lg-3" id="navbar-ul">
+            <li class="first-li p-0 px-3"><a href="/blog">Blog</a></li>
+            <li class="p-0 px-2"><a href="/blog/archive">Archive</a></li>
+            <li class="p-0 px-3"><a href="/blog/about">About</a>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div id="test-editor">
+      <textarea v-model="markdown" style="display:none;" id="markdown-vue"></textarea>
+  </div>
+
+  <!-- footer -->
+  <footer id="foot">
+    <div id="foot-bgsvg-wrapper">
+      <embed src="/blog/images/footrandom.svg" style="display: block; width: 100%">
+    </div>
+    <div class="container-fluid px-0">
+      <div class="col-lg-12 text-center text-black-50 px-0 mx-0">
+        ©2019 PinJyu.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal fade" id="post-blog-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 v-html="submit_message" class="modal-title" id="exampleModalLongTitle">上传博客</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend" title="标题：不限制字符种类，长度限制1至127位">
+              <span class="input-group-text" id="article_title">标题</span>
+            </div>
+            <input v-model="article_title" type="text" class="form-control border-right-0" placeholder="Title" aria-label="Title" aria-describedby="article_title">
+            <div class="input-group-append">
+              <span v-html="article_title_warn" class="input-group-text bg-white"></span>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend" title="分类：不限制字符种类，长度限制1至63位">
+              <span class="input-group-text" id="article_catatory">分类</span>
+            </div>
+            <input v-model="article_catatory" type="text" list="catatories" class="form-control border-right-0" placeholder="Catatory" aria-label="Catatory" aria-describedby="article_catatory">
+            <datalist v-if="catatory_list != null" id="catatories">
+              <template v-for="v, k, i in catatory_list">
+                <option v-bind:value="k"/>
+              </template>
+            </datalist>
+            <div class="input-group-append">
+              <span v-html="article_catatory_warn" class="input-group-text bg-white"></span>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend" title="封面：可以选择是否上传一张封面">
+              <span class="input-group-text">封面</span>
+            </div>
+            <div class="custom-file">
+              <input v-on:change="save_image" type="file" class="custom-file-input" accept="image/*" id="article_image">
+              <label class="custom-file-label" for="article_image" id="image_label">{{ image_label_placeholder }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" v-on:click="submit_blog" class="btn btn-primary" v-bind:class="{ disabled : !is_enable_submit }" v-html="submit_icon"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--  <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>-->
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <!-- 加载 Bootstrap 的所有 JavaScript 插件。也可以根据需要只加载单个插件。 -->
+  <script src="/blog/plugins/bootstrap-4.1.3-dist/js/bootstrap.min.js"></script>
+  <script src="/blog/plugins/editormd/editormd.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+  <script src="/blog/plugins/vue.js"></script>
+  <script src="/blog/js/edit.js"></script>
+</body>
+</html>
+
+

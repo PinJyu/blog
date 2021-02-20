@@ -1,0 +1,72 @@
+{
+  "id": "1736100",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2279387",
+      "name": "重做",
+      "font_class": "iconfontchongzuo",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "3004024",
+      "name": "图片上传",
+      "font_class": "tupianshangchuan",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "7878148",
+      "name": "重做",
+      "font_class": "zhongzuo",
+      "unicode": "e77b",
+      "unicode_decimal": 59259
+    },
+    {
+      "icon_id": "8438129",
+      "name": "撤销 (2)",
+      "font_class": "tuihui",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "11042548",
+      "name": "图片上传",
+      "font_class": "tupianshangchuan1",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "12427489",
+      "name": "重做",
+      "font_class": "zhongzuo1",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "12902574",
+      "name": "撤销",
+      "font_class": "chexiao",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "12989554",
+      "name": "重做",
+      "font_class": "zhongzuo2",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "13329737",
+      "name": "图片上传",
+      "font_class": "tupianshangchuan2",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    }
+  ]
+}
