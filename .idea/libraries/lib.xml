@@ -4,7 +4,9 @@
       <root url="file://$USER_HOME$/server/apache-tomcat-9.0.22-1/lib" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/server/apache-tomcat-9.0.22-1/lib/catalina.jar!/" />
+    </SOURCES>
     <jarDirectory url="file://$USER_HOME$/server/apache-tomcat-9.0.22-1/lib" recursive="false" />
   </library>
 </component>

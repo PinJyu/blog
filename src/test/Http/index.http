@@ -1,0 +1,15 @@
+GET http://localhost:8080/blog/article/all/1
+###
+
+GET http://localhost:8080/blog/article/detail/134
+
+###
+GET http://localhost:8080/blog/article/xxx/1
+
+###
+GET http://localhost:8080/blog/article/catatories
+
+###
+GET http://localhost:8080/blog/test
+
+###
